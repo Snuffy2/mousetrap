@@ -21,8 +21,8 @@ services:
     container_name: mousetrap
     environment:
       - TZ=Europe/London # Your timezone
-      - PUID=1000        # Your host user ID  
-      - PGID=1000        # Your host group ID
+      - PUID=1000 # Your host user ID
+      - PGID=1000 # Your host group ID
     volumes:
       - ./config:/config # Persistent settings
       - ./logs:/app/logs # Logs for troubleshooting
@@ -31,6 +31,7 @@ services:
 ```
 
 **2. Start MouseTrap:**
+
 ```bash
 docker-compose up -d
 ```
@@ -57,19 +58,22 @@ docker-compose up -d
 MouseTrap offers three IP monitoring modes to suit different use cases and network environments:
 
 ### 🔄 Auto (Full) - Default Mode
+
 - **Automatic IP detection**: Uses multiple IP lookup services with fallbacks
 - **Change monitoring**: Detects IP/ASN changes and auto-updates seedbox configuration
 - **Smart fallbacks**: Includes DNS-free endpoints for restrictive networks
 - **Best for**: Dynamic IPs, standard internet connections, properly configured VPNs
 
-### ✋ Manual Mode  
+### ✋ Manual Mode
+
 - **IP detection for convenience**: Shows current IP for easy configuration
 - **User-controlled updates**: Manual IP entry and updates only
 - **Full automation**: All purchase automation continues normally
 - **Best for**: Semi-static IPs, controlled environments, troubleshooting
 
 ### 🔒 Static (No Monitoring) Mode
-- **IP detection for convenience**: Shows current IP but no change monitoring  
+
+- **IP detection for convenience**: Shows current IP but no change monitoring
 - **Zero monitoring overhead**: No IP change comparisons or auto-updates
 - **Full automation**: All purchase automation continues independently
 - **Best for**: Static IPs, restricted networks, VPN environments with DNS issues
@@ -80,15 +84,15 @@ MouseTrap offers three IP monitoring modes to suit different use cases and netwo
 
 ## 📋 Environment Variables
 
-| Variable        | Description                              | Default | Example/Notes             |
-|-----------------|------------------------------------------|---------|---------------------------|
-| `TZ`            | Timezone for logs and scheduling         | UTC     | `Europe/London`           |
-| `PUID`          | User ID for volume permissions           | 1000    | Match your host user      |
-| `PGID`          | Group ID for volume permissions          | 1000    | Match your host group     |
-| `DOCKER_GID`    | Docker group ID for port monitoring     | 992     | See troubleshooting guide |
-| `IPINFO_TOKEN`  | ipinfo.io API token (recommended)        | None    | Improves IP detection     |
-| `IPDATA_API_KEY`| ipdata.co API key (optional)             | test    | 1,500 requests/day free   |
-| `LOGLEVEL`      | Backend log level                        | INFO    | DEBUG, INFO, WARNING      |
+| Variable         | Description                         | Default | Example/Notes             |
+| ---------------- | ----------------------------------- | ------- | ------------------------- |
+| `TZ`             | Timezone for logs and scheduling    | UTC     | `Europe/London`           |
+| `PUID`           | User ID for volume permissions      | 1000    | Match your host user      |
+| `PGID`           | Group ID for volume permissions     | 1000    | Match your host group     |
+| `DOCKER_GID`     | Docker group ID for port monitoring | 992     | See troubleshooting guide |
+| `IPINFO_TOKEN`   | ipinfo.io API token (recommended)   | None    | Improves IP detection     |
+| `IPDATA_API_KEY` | ipdata.co API key (optional)        | test    | 1,500 requests/day free   |
+| `LOGLEVEL`       | Backend log level                   | INFO    | DEBUG, INFO, WARNING      |
 
 > **Note:** For port monitoring, add `- /var/run/docker.sock:/var/run/docker.sock:ro` to volumes
 
@@ -101,15 +105,17 @@ MouseTrap uses an **intelligent token-aware fallback chain** for maximum reliabi
 ### API Token Setup
 
 #### IPinfo.io Token (Highly Recommended) 🚀
+
 IPinfo.io offers a free API token with generous limits that provides the best reliability:
 
 1. **Sign up** for a free account at [ipinfo.io/signup](https://ipinfo.io/signup)
-2. **Copy your API token** from the dashboard  
+2. **Copy your API token** from the dashboard
 3. **Add to your environment** (see Docker Compose example below)
 
 **Benefits:** 50,000 requests/month, highest priority in fallback chain, best data quality
 
-#### ipdata.co API Key (Optional but Recommended) 🛡️  
+#### ipdata.co API Key (Optional but Recommended) 🛡️
+
 ipdata.co provides an excellent fallback option:
 
 1. **Sign up** for a free account at [ipdata.co/pricing.html](https://ipdata.co/pricing.html)
@@ -119,31 +125,33 @@ ipdata.co provides an excellent fallback option:
 **Benefits:** 1,500 requests/day free tier, improved fallback reliability, HTTPS protocol
 
 ### Docker Compose Configuration
+
 ```yaml
 environment:
-  - IPINFO_TOKEN=your_ipinfo_token_here      # Recommended: 50,000 requests/month
-  - IPDATA_API_KEY=your_ipdata_api_key_here  # Optional: Improves fallback reliability
+  - IPINFO_TOKEN=your_ipinfo_token_here # Recommended: 50,000 requests/month
+  - IPDATA_API_KEY=your_ipdata_api_key_here # Optional: Improves fallback reliability
 ```
 
 ### IP Lookup Fallback Chain
 
-| **Provider** | **Protocol** | **Data** | **Rate Limits** | **Authentication** |
-|--------------|--------------|----------|-----------------|-------------------|
-| **IPinfo Lite** | HTTPS | IP, ASN | 50,000/month | Bearer token required |
-| **IPinfo Standard** | HTTPS | IP, ASN, Geo | 1,000/month | None (free tier) |
-| **ipdata.co** | HTTPS | IP, ASN, Geo | 1,500/day free | API key improves limits |
-| **ip-api.com** | HTTP | IP, ASN, Geo | Unlimited | None |
-| **ipify.org** | HTTPS | IP only | Unlimited | None |
-| **Hardcoded endpoints** | HTTPS | IP only | Unlimited | DNS-free for restricted networks |
+| **Provider**            | **Protocol** | **Data**     | **Rate Limits** | **Authentication**               |
+| ----------------------- | ------------ | ------------ | --------------- | -------------------------------- |
+| **IPinfo Lite**         | HTTPS        | IP, ASN      | 50,000/month    | Bearer token required            |
+| **IPinfo Standard**     | HTTPS        | IP, ASN, Geo | 1,000/month     | None (free tier)                 |
+| **ipdata.co**           | HTTPS        | IP, ASN, Geo | 1,500/day free  | API key improves limits          |
+| **ip-api.com**          | HTTP         | IP, ASN, Geo | Unlimited       | None                             |
+| **ipify.org**           | HTTPS        | IP only      | Unlimited       | None                             |
+| **Hardcoded endpoints** | HTTPS        | IP only      | Unlimited       | DNS-free for restricted networks |
 
 **Smart Provider Selection:** The system automatically adapts based on available tokens:
+
 - **Both tokens**: IPinfo Lite → ipdata.co → ip-api → IPinfo Standard → ipify → hardcoded
 - **IPinfo only**: IPinfo Lite → ipdata (free) → ip-api → IPinfo Standard → ipify → hardcoded
-- **ipdata only**: ipdata.co → ip-api → IPinfo Standard → ipify → hardcoded  
+- **ipdata only**: ipdata.co → ip-api → IPinfo Standard → ipify → hardcoded
 - **No tokens**: ipdata (free) → ip-api → IPinfo Standard → ipify → hardcoded
 
 > **💡 Recommendation:** Get both tokens for maximum resilience, but IPinfo token alone provides excellent reliability.
-> 
+>
 > **🔒 VPN/DNS Issues:** Hardcoded endpoints bypass DNS resolution for restrictive network environments.
 
 ---
@@ -161,16 +169,18 @@ environment:
 ## ⚙️ Optional Features
 
 ### Port Monitoring
+
 Add Docker socket access to enable container port monitoring:
 
 ```yaml
 volumes:
   - ./config:/config
   - ./logs:/app/logs
-  - /var/run/docker.sock:/var/run/docker.sock:ro  # Add this line
+  - /var/run/docker.sock:/var/run/docker.sock:ro # Add this line
 ```
 
 If your Docker group GID isn't 992:
+
 ```bash
 # Find your Docker group GID
 getent group docker
@@ -187,7 +197,7 @@ environment:
 
 - **[Features Guide](docs/features-guide.md)**: Comprehensive feature overview and usage
 - **[Millionaire's Vault Automation](docs/millionaires-vault-automation.md)**: Advanced vault donation setup
-- **[API Reference](docs/api-reference.md)**: Complete REST API documentation  
+- **[API Reference](docs/api-reference.md)**: Complete REST API documentation
 - **[Troubleshooting](docs/troubleshooting.md)**: Common issues and solutions
 - **[Architecture & Rules](docs/architecture-and-rules.md)**: Technical implementation details
 - **[Purchase Rules](docs/purchase_rules.md)**: Automation logic and guardrails
@@ -211,7 +221,7 @@ For detailed troubleshooting: **[docs/troubleshooting.md](docs/troubleshooting.m
 ## 💬 Support
 
 - **Issues**: [GitHub Issues](https://github.com/sirjmann92/mousetrap/issues)
-- **Documentation**: Check the `docs/` directory for detailed guides  
+- **Documentation**: Check the `docs/` directory for detailed guides
 - **Logs**: Enable `LOGLEVEL=DEBUG` and check container logs for troubleshooting
 
 ---
@@ -236,6 +246,7 @@ docker-compose up --build -d
 MouseTrap can connect to MyAnonaMouse via your VPN container in two ways:
 
 ### 1. Native Networking (Docker Compose network)
+
 - Place MouseTrap and your VPN container (e.g., Gluetun, binhex/arch-delugevpn) on the same Docker network.
 - Set the `mam_ip` in your session config (`IP Address` in the UI) to the VPN's external IP.
 - All MAM API calls will go out via the VPN container if you set the `network_mode` in Compose:
@@ -247,7 +258,6 @@ services:
     network_mode: "service:gluetun"  # or your VPN container name
     ...
 ```
-
 
 ### 2. Proxy Configuration (Recommended for multi-session/multi-IP)
 
@@ -261,6 +271,7 @@ MouseTrap supports global proxy management and instant proxy testing:
 - **Session configs reference proxies by label** for easy switching and management.
 
 #### Example: Gluetun HTTP Proxy
+
 - Enable HTTP proxy in Gluetun: [Gluetun HTTP Proxy Docs](https://github.com/qdm12/gluetun-wiki/blob/main/setup/options/http-proxy.md)
 - Add a proxy in MouseTrap with host, port, and (if set) your proxy username/password.
 - Select the proxy in your session config and use the "USE PROXY IP" button to set the correct public IP.
@@ -308,7 +319,7 @@ services:
       - OPENVPN_PASSWORD=yourpass
       - TZ=Europe/London
     ports:
-      - 39842:39842  # Expose MouseTrap's web UI via VPN container
+      - 39842:39842 # Expose MouseTrap's web UI via VPN container
     volumes:
       - ./gluetun:/gluetun
 
@@ -331,8 +342,6 @@ services:
 - Access the UI at `http://localhost:39842` (traffic is routed through the VPN container).
 - Do NOT set a `PORT` environment variable—MouseTrap always runs on 39842.
 
-
-
 ### 2. HTTP Proxy Mode (recommended for multi-session)
 
 ```yaml
@@ -352,7 +361,7 @@ services:
       - HTTPPROXY_USER=proxyuser
       - HTTPPROXY_PASSWORD=proxypass
     ports:
-      - 8888:8888  # HTTP proxy
+      - 8888:8888 # HTTP proxy
     volumes:
       - ./gluetun:/gluetun
 
@@ -366,13 +375,14 @@ services:
       - DOCKER_GID=281 # (Optional) Set to your host's Docker group GID if not 992
     volumes:
       - ./config:/config
-      - ./logs:/app/logs 
+      - ./logs:/app/logs
       - /var/run/docker.sock:/var/run/docker.sock:ro #Optional, for port monitoring support
     ports:
       - 39842:39842
     depends_on:
       - gluetun
 ```
+
 ### 🐭 Unraid Full Docker Compose Example
 
 For Unraid users, here is a full example `docker-compose.yml` configuration:
@@ -392,8 +402,8 @@ services:
       - HOST_OS=Unraid
       - HOST_HOSTNAME=MyHostname
       - HOST_CONTAINERNAME=MouseTrap
-#      - LOGLEVEL=INFO # Optional - Set level for troubleshooting
-#      - IPINFO_TOKEN=your_token_here # Optional
+    #      - LOGLEVEL=INFO # Optional - Set level for troubleshooting
+    #      - IPINFO_TOKEN=your_token_here # Optional
     volumes:
       - ../config:/config # Persist configs (use absolute if needed, e.g., /mnt/user/appdata/mousetrap/config)
       - ../logs:/app/logs # Persist logs
@@ -404,6 +414,7 @@ services:
 Adjust paths and environment variables as needed for your Unraid setup.
 
 **Notes:**
+
 - The `/var/run/docker.sock` mount is only required if you want to enable the Port Monitoring feature. Without it, all other features will work normally.
 - The `./logs:/app/logs` volume is recommended to persist logs outside the container. This allows you to view logs even if the container is removed or recreated.
 - In HTTP proxy mode, enter your proxy credentials in each session's proxy config in the MouseTrap UI that you want to route through the proxy's connection.
@@ -430,7 +441,6 @@ MouseTrap supports notifications via Email (SMTP), Webhook (including Discord), 
 ### Webhook
 
 - Enter your webhook URL in the UI. For Discord, check the "Discord" box to send Discord-compatible messages.
-
 
 ### Apprise
 
