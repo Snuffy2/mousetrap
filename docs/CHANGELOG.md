@@ -3,29 +3,34 @@
 ## IP Lookup System Overhaul 🚀
 
 ### **Token-Aware Provider Chain**
+
 - **Intelligent fallback strategy:** System now adapts provider chain based on available API tokens
 - **Four token scenarios supported:** Both tokens, IPinfo only, ipdata only, or no tokens
 - **Optimal provider selection:** Automatically uses best available provider first
 
 ### **Enhanced Authentication & Rate Limits**
+
 - **IPinfo Lite API:** Added Bearer token authentication (50,000 requests/month)
-- **IPinfo Standard fallback:** Free tier HTTPS fallback (1,000 requests/month) 
+- **IPinfo Standard fallback:** Free tier HTTPS fallback (1,000 requests/month)
 - **ipdata.co improvements:** Uses free tier (1,500/day) when no API key provided
 - **Graceful degradation:** Works reliably even without any API tokens
 
 ### **Performance & Reliability Improvements**
+
 - **Request caching:** 30-second cache prevents duplicate API calls
-- **Rate-limited logging:** Prevents log spam while maintaining error visibility  
+- **Rate-limited logging:** Prevents log spam while maintaining error visibility
 - **Connection error handling:** Robust fallback when providers are unreachable
 - **Provider validation:** Comprehensive testing of all fallback scenarios
 
 ### **Enhanced Logging & Visibility**
+
 - **Session check visibility:** Core IP/ASN comparison results now visible at INFO level
 - **Operational confidence:** Clear logging when "No change needed" during normal operation
 - **Provider status:** Easy monitoring of which providers are active/failing
 - **Debugging tools:** Enhanced troubleshooting commands and documentation
 
 ### **Documentation Updates**
+
 - **Complete provider strategy guide:** Comprehensive documentation of token-based selection
 - **Setup instructions:** Clear configuration steps for both IPinfo and ipdata tokens
 - **Troubleshooting section:** Commands and techniques for diagnosing provider issues
@@ -47,6 +52,7 @@
   - The `DOCKER_GID` environment variable can be set to match your host's Docker group GID for proper Docker socket access. See README for details.
 
 ## Other Improvements
+
 - Improved event log clarity and error reporting for all automation types.
 - Documentation scrubbed of real IDs, usernames, IPs, ASNs, and other personal data.
 - All documentation and changelogs updated for new port monitoring workflow and environment variable usage.
@@ -54,6 +60,7 @@
 ## Late August 2025
 
 ### New Features & Fixes
+
 - **Upload Credit Automation:**
   - Added backend automation for upload credit purchases, supporting both point-based and time-based triggers.
   - UI and backend now support all three automation types: Wedge, VIP, and Upload Credit.
@@ -70,6 +77,7 @@
 ## August 2025
 
 ### Major Features & Improvements
+
 - **Port Monitoring:**
   - Global card for monitoring Docker container ports, with auto-restart and event logging.
   - Per-check intervals, persistent config in `/config/port_monitoring.yaml`.
@@ -85,6 +93,7 @@
   - Sensitive data handling and documentation improvements.
 
 ### Recent Updates (August 2025)
+
 - **ASN Changed Notification:**
   - Added backend and frontend support for ASN change detection and notification. Users can now enable notifications for ASN changes in the Notifications card.
 - **Notification System Improvements:**
@@ -97,6 +106,7 @@
   - Docs are now safe to publish and included in version control.
 
 ### Upgrade Notes
+
 - If upgrading from a previous version, ensure your `/config` and `/logs` volumes are mapped as shown in the README.
 - Port monitoring config is now stored in `/config/port_monitoring.yaml` (host path).
 - If you see permission errors, check your Docker group membership and volume mounts.

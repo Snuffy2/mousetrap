@@ -9,17 +9,21 @@
 - The `DOCKER_GID` environment variable can be set to match your host's Docker group GID for proper Docker socket access. See README for details.
 
 # Automation Types
+
 - **Wedge Automation:** Point-based and time-based triggers, with safe integer checks.
 - **VIP Automation:** Point-based and time-based triggers, with safe integer checks. UI uses "VIP Duration" for selection.
 - **Upload Credit Automation:** Point-based and time-based triggers, with safe integer checks. Now fully implemented and logged.
+
 # MouseTrap Application Documentation
 
 ## Overview
+
 MouseTrap is a modular automation and monitoring tool for MaM (MyAnonamouse) seedbox sessions, built with a FastAPI backend and a React frontend. It automates session checks, event logging, and perk purchases, and provides a clear, user-friendly UI for monitoring and control.
 
 ---
 
 ## Technology Stack
+
 - **Backend:** Python 3, FastAPI, APScheduler, requests
 - **Frontend:** React (with MUI), JavaScript/JSX
 - **Containerization:** Docker, Docker Compose
@@ -36,29 +40,27 @@ MouseTrap is a modular automation and monitoring tool for MaM (MyAnonamouse) see
 
 ---
 
-
 - **Comprehensive Logging:**
-	- All backend actions (manual, automation, scheduled), session add/save/delete, and port monitoring actions are logged.
-	- Session add/delete and port monitoring events are always global (not session-specific).
-	- Each log entry includes timestamp, label (if applicable), event type, details, and status message.
+  - All backend actions (manual, automation, scheduled), session add/save/delete, and port monitoring actions are logged.
+  - Session add/delete and port monitoring events are always global (not session-specific).
+  - Each log entry includes timestamp, label (if applicable), event type, details, and status message.
 
 - **Auto Update Field:**
-	- The `auto_update` field in event log entries is always a user-friendly string.
-	- If no update was attempted, `auto_update` is always set to `"N/A"` (never `null`).
-	- If an update was attempted, `auto_update` contains a summary string (success/error message).
+  - The `auto_update` field in event log entries is always a user-friendly string.
+  - If no update was attempted, `auto_update` is always set to `"N/A"` (never `null`).
+  - If an update was attempted, `auto_update` contains a summary string (success/error message).
 
 - **Status Message:**
-	- The `status_message` field always reflects the true backend action/result.
-	- Priority: error message > explicit success message > fallback status message.
-	- No misleading or generic messages after an update attempt.
+  - The `status_message` field always reflects the true backend action/result.
+  - Priority: error message > explicit success message > fallback status message.
+  - No misleading or generic messages after an update attempt.
 
 - **No Nulls:**
-	- The event log never writes `null` for `auto_update` or other user-facing fields.
+  - The event log never writes `null` for `auto_update` or other user-facing fields.
 
 - **UI Consistency:**
-	- The frontend event log panel displays all backend activity, color-coded by event type and result.
-	- The UI never shows `null` or confusing values for any event log field.
-
+  - The frontend event log panel displays all backend activity, color-coded by event type and result.
+  - The UI never shows `null` or confusing values for any event log field.
 
 ## Example Event Log Entry
 
@@ -98,38 +100,43 @@ MouseTrap is a modular automation and monitoring tool for MaM (MyAnonamouse) see
 # Docker Image Optimization & Static File Handling (2025-08)
 
 ## Multi-Stage Build & Static Assets
+
 The Dockerfile uses a multi-stage build to keep the final image small and secure:
+
 - The React frontend is built in a separate stage, and only the production build output is copied into the backend image.
 - To avoid duplicating the static build output, the image only stores one copy (in `/app/frontend/build`).
 - A symlink is created from `/frontend/build` to `/app/frontend/build` so the backend can serve static files from the expected path, without doubling image size.
 
 **Result:**
+
 - Image size reduced by more than 50% (e.g., from ~550MB to ~240MB).
 - No loss of functionality; static files and favicons are handled by the React build process.
 
 ## Troubleshooting: Static Directory
+
 - If you see errors about `/frontend/build/static` missing, ensure the symlink is present in the image and that the React build completed successfully.
 - The symlink is created in the Dockerfile with:
-	```Dockerfile
-	RUN mkdir -p /frontend && ln -s /app/frontend/build /frontend/build
-	```
+  ```Dockerfile
+  RUN mkdir -p /frontend && ln -s /app/frontend/build /frontend/build
+  ```
 - If you change backend static file serving logic, update the Dockerfile and this doc accordingly.
 
 ## Port Monitor Notifications: Global vs Per-Port
 
-	- In the Notifications card, enable "Port Monitor Failure" for global notifications.
-	- Any port check failure will trigger a notification via the selected channels (email/webhook/Discord).
-	- Use this for a simple, all-or-nothing approach.
+    - In the Notifications card, enable "Port Monitor Failure" for global notifications.
+    - Any port check failure will trigger a notification via the selected channels (email/webhook/Discord).
+    - Use this for a simple, all-or-nothing approach.
 
 - **Per-Port "Notify on Fail":**
-	- In the Port Monitoring card, enable "Notify on Fail" for each port check you want to monitor individually.
-	- Only failures for ports with this setting enabled will trigger a notification.
-	- Use this for granular control when monitoring multiple ports.
+  - In the Port Monitoring card, enable "Notify on Fail" for each port check you want to monitor individually.
+  - Only failures for ports with this setting enabled will trigger a notification.
+  - Use this for granular control when monitoring multiple ports.
 
 **If both are enabled, you may receive duplicate notifications for the same failure.**
 For most users, the per-port setting is more flexible. For simple setups, the global rule is easier to manage.
 
 ---
+
 ## Notifications & Email
 
 MouseTrap supports notifications via Email (SMTP) and Webhook (including Discord). Configure these in the Notifications card in the UI.
@@ -141,8 +148,8 @@ MouseTrap supports notifications via Email (SMTP) and Webhook (including Discord
 - Host: <b>smtp.gmail.com</b>
 - Port: <b>587</b> (TLS) or <b>465</b> (SSL)
 - See the UI tooltip for a quick Gmail setup guide, or visit:
-	- [Create App Password](https://support.google.com/mail/answer/185833?hl=en)
-	- [SMTP Setup Instructions](https://support.google.com/a/answer/176600?hl=en)
+  - [Create App Password](https://support.google.com/mail/answer/185833?hl=en)
+  - [SMTP Setup Instructions](https://support.google.com/a/answer/176600?hl=en)
 
 ### Webhook
 
@@ -150,7 +157,9 @@ MouseTrap supports notifications via Email (SMTP) and Webhook (including Discord
 - You can test both Email and Webhook notifications directly from the UI.
 
 ---
+
 ## File/Directory Structure (Key Parts)
+
 - `backend/`: FastAPI app, automation logic, event log, config/session management
 - `frontend/`: React app, UI components, event log panel, status card
 - `logs/ui_event_log.json`: Stores all UI-visible event log entries
@@ -159,6 +168,7 @@ MouseTrap supports notifications via Email (SMTP) and Webhook (including Discord
 ---
 
 ## How It Works (Summary)
+
 1. **Backend runs scheduled checks** (APScheduler) and logs [scheduled] events.
 2. **User actions** (button clicks, purchases, config saves) trigger [manual] or [automation] events.
 3. **UI timer** only fetches latest status/event log; does not trigger backend checks or log events.
@@ -167,6 +177,7 @@ MouseTrap supports notifications via Email (SMTP) and Webhook (including Discord
 ---
 
 ## Best Practices
+
 - Only trigger manual checks for explicit user actions.
 - Use the event log to audit all backend activity.
 - Keep config and session files up to date for reliable automation.
@@ -175,10 +186,12 @@ MouseTrap supports notifications via Email (SMTP) and Webhook (including Discord
 ---
 
 ## Contributors
+
 - Project owner: sirjmann92
 - Coding assistant: GitHub Copilot
 
 ---
 
 ## Last Updated
+
 August 20, 2025

@@ -1,5 +1,16 @@
-import React from "react";
-import { Box, Typography, Tooltip, IconButton, FormControlLabel, Checkbox, FormControl, InputLabel, Select, MenuItem, TextField, Button, Grid } from "@mui/material";
+import React from 'react';
+import {
+  Box,
+  Typography,
+  Tooltip,
+  FormControlLabel,
+  Checkbox,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+} from '@mui/material';
 
 /**
  * Generic automation section for PerkAutomationCard (Wedge, VIP, Upload, etc)
@@ -35,7 +46,6 @@ export default function AutomationSection({
   selectOptions = [],
   onSelectChange,
   extraControls = null,
-  triggerType,
   onTriggerTypeChange,
   triggerTypeValue,
   triggerDays,
@@ -43,18 +53,32 @@ export default function AutomationSection({
   triggerPointThreshold,
   onTriggerPointThresholdChange,
   confirmButton = null,
-  tooltip = ""
+  tooltip = '',
 }) {
   return (
     <Box sx={{ mb: 3 }}>
-      <Typography variant="subtitle1" sx={{ mb: 1 }}>{title}</Typography>
-      <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', mb: 2 }}>
+      <Typography variant="subtitle1" sx={{ mb: 1 }}>
+        {title}
+      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          width: '100%',
+          mb: 2,
+        }}
+      >
         <Tooltip title={tooltip} disableHoverListener={!tooltip} arrow>
           <span>
             <FormControlLabel
               control={<Checkbox checked={enabled} onChange={onToggle} disabled={toggleDisabled} />}
               label={<span>{toggleLabel}</span>}
-              sx={{ minWidth: 220, mr: 3, whiteSpace: 'nowrap', flexShrink: 0 }}
+              sx={{
+                minWidth: 220,
+                mr: 3,
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
+              }}
             />
           </span>
         </Tooltip>
@@ -67,8 +91,10 @@ export default function AutomationSection({
               onChange={onSelectChange}
               MenuProps={{ disableScrollLock: true }}
             >
-              {selectOptions.map(opt => (
-                <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
+              {selectOptions.map((opt) => (
+                <MenuItem key={opt.value} value={opt.value}>
+                  {opt.label}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -78,47 +104,41 @@ export default function AutomationSection({
         {confirmButton}
       </Box>
       {/* Trigger options row */}
-      <Grid container spacing={2} alignItems="center" sx={{ mt: 1, mb: 2 }}>
-        <Grid item>
-          <FormControl size="small" sx={{ minWidth: 160 }}>
-            <InputLabel>Trigger Type</InputLabel>
-            <Select
-              value={triggerTypeValue}
-              label="Trigger Type"
-              onChange={onTriggerTypeChange}
-              MenuProps={{ disableScrollLock: true }}
-            >
-              <MenuItem value="time">Time-based</MenuItem>
-              <MenuItem value="points">Point-based</MenuItem>
-              <MenuItem value="both">Both</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
+      <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mt: 1, mb: 2 }}>
+        <FormControl size="small" sx={{ minWidth: 160 }}>
+          <InputLabel>Trigger Type</InputLabel>
+          <Select
+            value={triggerTypeValue}
+            label="Trigger Type"
+            onChange={onTriggerTypeChange}
+            MenuProps={{ disableScrollLock: true }}
+          >
+            <MenuItem value="time">Time-based</MenuItem>
+            <MenuItem value="points">Point-based</MenuItem>
+            <MenuItem value="both">Both</MenuItem>
+          </Select>
+        </FormControl>
         {(triggerTypeValue === 'time' || triggerTypeValue === 'both') && (
-          <Grid item>
-            <TextField
-              label="Every X Days"
-              type="number"
-              value={triggerDays}
-              onChange={onTriggerDaysChange}
-              size="small"
-              sx={{ minWidth: 120 }}
-            />
-          </Grid>
+          <TextField
+            label="Every X Days"
+            type="number"
+            value={triggerDays}
+            onChange={onTriggerDaysChange}
+            size="small"
+            sx={{ minWidth: 120 }}
+          />
         )}
         {(triggerTypeValue === 'points' || triggerTypeValue === 'both') && (
-          <Grid item>
-            <TextField
-              label="Point Threshold"
-              type="number"
-              value={triggerPointThreshold}
-              onChange={onTriggerPointThresholdChange}
-              size="small"
-              sx={{ minWidth: 140 }}
-            />
-          </Grid>
+          <TextField
+            label="Point Threshold"
+            type="number"
+            value={triggerPointThreshold}
+            onChange={onTriggerPointThresholdChange}
+            size="small"
+            sx={{ minWidth: 140 }}
+          />
         )}
-      </Grid>
+      </Box>
     </Box>
   );
 }

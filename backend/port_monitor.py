@@ -161,6 +161,12 @@ class PortMonitorStackManager:
         Errors during writing are logged but not raised to the caller.
         """
         try:
+            # Ensure parent directory exists so writing the config won't fail
+            try:
+                PORT_MONITOR_CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
+            except Exception as _e:
+                _logger.debug("[PortMonitorStack] Could not ensure config dir exists: %s", _e)
+
             with PORT_MONITOR_CONFIG_PATH.open("w", encoding="utf-8") as f:
                 yaml.safe_dump(
                     [

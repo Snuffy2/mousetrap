@@ -3,10 +3,12 @@
 This document provides a comprehensive reference for MouseTrap's REST API endpoints. The API is built with FastAPI and serves both the web UI and potential external integrations.
 
 ## Base URL
+
 - Default: `http://localhost:39842/api`
 - Configurable via `PORT` environment variable
 
 ## Authentication
+
 Currently, MouseTrap does not implement authentication. All endpoints are publicly accessible on the configured port.
 
 ---
@@ -14,14 +16,16 @@ Currently, MouseTrap does not implement authentication. All endpoints are public
 ## Session Management
 
 ### GET `/api/sessions`
+
 List all configured sessions.
 
 **Response:**
+
 ```json
 [
   {
     "label": "session-name",
-    "mam_id": "your_mam_id", 
+    "mam_id": "your_mam_id",
     "session_type": "auto",
     "mam_ip": "1.2.3.4",
     "check_frequency": 30
@@ -30,17 +34,20 @@ List all configured sessions.
 ```
 
 ### GET `/api/session/{label}`
+
 Get detailed configuration for a specific session.
 
 **Parameters:**
+
 - `label` (path): Session label/name
 
 **Response:**
+
 ```json
 {
   "label": "session-name",
   "mam_id": "your_mam_id",
-  "session_type": "auto", 
+  "session_type": "auto",
   "mam_ip": "1.2.3.4",
   "check_frequency": 30,
   "perk_automation": {
@@ -54,7 +61,7 @@ Get detailed configuration for a specific session.
     "wedge": {
       "enabled": false,
       "method": "points",
-      "trigger_type": "time", 
+      "trigger_type": "time",
       "trigger_days": 7
     },
     "vip": {
@@ -69,26 +76,31 @@ Get detailed configuration for a specific session.
 ```
 
 ### POST `/api/session/{label}`
+
 Create or update a session configuration.
 
 **Parameters:**
+
 - `label` (path): Session label/name
 
 **Request Body:**
+
 ```json
 {
   "mam_id": "your_mam_id",
   "session_type": "auto",
-  "mam_ip": "1.2.3.4", 
+  "mam_ip": "1.2.3.4",
   "check_frequency": 30,
   "proxy_label": null
 }
 ```
 
 ### DELETE `/api/session/{label}`
+
 Delete a session configuration.
 
 **Parameters:**
+
 - `label` (path): Session label/name
 
 ---
@@ -96,13 +108,16 @@ Delete a session configuration.
 ## Status & Monitoring
 
 ### GET `/api/status`
+
 Get comprehensive status for all sessions or a specific session.
 
 **Query Parameters:**
+
 - `label` (optional): Specific session label
 - `force` (optional): Force fresh check (bypasses cache)
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -126,9 +141,11 @@ Get comprehensive status for all sessions or a specific session.
 ```
 
 ### POST `/api/update-seedbox/{label}`
+
 Manually trigger seedbox update for a session.
 
 **Parameters:**
+
 - `label` (path): Session label/name
 
 ---
@@ -136,12 +153,15 @@ Manually trigger seedbox update for a session.
 ## Automation & Purchases
 
 ### POST `/api/automation/{label}`
+
 Update automation settings for a session.
 
 **Parameters:**
+
 - `label` (path): Session label/name
 
 **Request Body:**
+
 ```json
 {
   "min_points": 10000,
@@ -167,13 +187,16 @@ Update automation settings for a session.
 ```
 
 ### POST `/api/purchase/{label}/{item_type}`
+
 Manually trigger a purchase.
 
 **Parameters:**
+
 - `label` (path): Session label/name
 - `item_type` (path): One of `upload`, `wedge`, `vip`
 
 **Request Body (for upload credit):**
+
 ```json
 {
   "gb": 2
@@ -181,6 +204,7 @@ Manually trigger a purchase.
 ```
 
 **Request Body (for VIP):**
+
 ```json
 {
   "weeks": 4
@@ -188,6 +212,7 @@ Manually trigger a purchase.
 ```
 
 **Request Body (for wedge):**
+
 ```json
 {
   "method": "points"
@@ -199,9 +224,11 @@ Manually trigger a purchase.
 ## Proxy Management
 
 ### GET `/api/proxies`
+
 List all configured proxies.
 
 **Response:**
+
 ```json
 {
   "proxy-name": {
@@ -214,13 +241,15 @@ List all configured proxies.
 ```
 
 ### POST `/api/proxies`
+
 Create or update proxy configuration.
 
 **Request Body:**
+
 ```json
 {
   "label": "proxy-name",
-  "host": "proxy.example.com", 
+  "host": "proxy.example.com",
   "port": 8080,
   "username": "user",
   "password": "pass"
@@ -228,18 +257,23 @@ Create or update proxy configuration.
 ```
 
 ### DELETE `/api/proxies/{label}`
+
 Delete a proxy configuration.
 
 **Parameters:**
+
 - `label` (path): Proxy label/name
 
 ### GET `/api/proxy_test/{label}`
+
 Test a proxy and return detected IP.
 
 **Parameters:**
+
 - `label` (path): Proxy label/name
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -254,9 +288,11 @@ Test a proxy and return detected IP.
 ## Port Monitoring
 
 ### GET `/api/port-monitor/stacks`
+
 List all port monitoring configurations.
 
 **Response:**
+
 ```json
 [
   {
@@ -273,9 +309,11 @@ List all port monitoring configurations.
 ```
 
 ### POST `/api/port-monitor/stacks`
+
 Create a new port monitoring configuration.
 
 **Request Body:**
+
 ```json
 {
   "name": "monitor-name",
@@ -288,18 +326,23 @@ Create a new port monitoring configuration.
 ```
 
 ### PUT `/api/port-monitor/stacks/{name}`
+
 Update an existing port monitoring configuration.
 
 ### DELETE `/api/port-monitor/stacks/{name}`
+
 Delete a port monitoring configuration.
 
 **Parameters:**
+
 - `name` (path): Monitor configuration name
 
 ### GET `/api/port-monitor/containers`
+
 List all available Docker containers.
 
 **Response:**
+
 ```json
 [
   {
@@ -315,9 +358,11 @@ List all available Docker containers.
 ## Notifications
 
 ### GET `/api/notifications`
+
 Get current notification configuration.
 
 **Response:**
+
 ```json
 {
   "email": {
@@ -338,7 +383,7 @@ Get current notification configuration.
       "webhook": true
     },
     "automation_failure": {
-      "email": true, 
+      "email": true,
       "webhook": true
     }
   }
@@ -346,12 +391,15 @@ Get current notification configuration.
 ```
 
 ### POST `/api/notifications`
+
 Update notification configuration.
 
 ### POST `/api/notifications/test-email`
+
 Test email notification configuration.
 
 ### POST `/api/notifications/test-webhook`
+
 Test webhook notification configuration.
 
 ---
@@ -359,19 +407,22 @@ Test webhook notification configuration.
 ## Event Log
 
 ### GET `/api/event-log`
+
 Retrieve event log entries.
 
 **Query Parameters:**
+
 - `filter` (optional): Filter by session label or "global"
 - `limit` (optional): Number of entries to return (default: 50)
 
 **Response:**
+
 ```json
 [
   {
     "timestamp": "2025-09-04T12:00:00Z",
     "event": "automation_success",
-    "event_type": "automation_success", 
+    "event_type": "automation_success",
     "label": "session-name",
     "details": "VIP purchase successful (4 weeks)",
     "status": "success",
@@ -381,6 +432,7 @@ Retrieve event log entries.
 ```
 
 ### DELETE `/api/event-log`
+
 Clear all event log entries.
 
 ---
@@ -388,9 +440,11 @@ Clear all event log entries.
 ## Health & Information
 
 ### GET `/api/health`
+
 Basic health check endpoint.
 
 **Response:**
+
 ```json
 {
   "status": "healthy",
@@ -399,9 +453,11 @@ Basic health check endpoint.
 ```
 
 ### GET `/api/version`
+
 Get application version information.
 
 **Response:**
+
 ```json
 {
   "version": "1.0.0",
@@ -425,9 +481,10 @@ All endpoints may return error responses in the following format:
 ```
 
 Common HTTP status codes:
+
 - `200`: Success
 - `400`: Bad Request (invalid parameters)
-- `404`: Not Found (session/proxy/monitor not found)  
+- `404`: Not Found (session/proxy/monitor not found)
 - `500`: Internal Server Error
 
 ---
@@ -435,6 +492,7 @@ Common HTTP status codes:
 ## Rate Limiting
 
 MouseTrap implements internal rate limiting for MaM API calls:
+
 - Status checks: Maximum once per hour per session
 - Seedbox updates: Maximum once per hour per session
 - Purchase attempts: No built-in rate limiting (respects MaM's limits)
