@@ -78,7 +78,7 @@ export default function PerkAutomationCard({
   const [wedgeMethod, setWedgeMethod] = useState('points');
   const [wedgeTriggerType, setWedgeTriggerType] = useState('time');
   const [wedgeTriggerDays, setWedgeTriggerDays] = useState(7);
-  const [millionairesVaultAmount, setMillionairesVaultAmount] = useState(2000);
+  const [_millionairesVaultAmount, _setMillionairesVaultAmount] = useState(2000);
   const [confirmVIPOpen, setConfirmVIPOpen] = useState(false);
   const [confirmUploadOpen, setConfirmUploadOpen] = useState(false);
   const [confirmWedgeOpen, setConfirmWedgeOpen] = useState(false);
@@ -164,7 +164,7 @@ export default function PerkAutomationCard({
   }, [guardrails, currentUsername, sessionLabel]);
 
   // API call helpers
-  const triggerWedge = async () => {
+  const _triggerWedge = async () => {
     try {
       const res = await fetch('/api/automation/wedge', {
         method: 'POST',
@@ -191,7 +191,7 @@ export default function PerkAutomationCard({
       });
     }
   };
-  const triggerVIP = async () => {
+  const _triggerVIP = async () => {
     try {
       const res = await fetch('/api/automation/vip', { method: 'POST' });
       const data = await res.json();
@@ -217,7 +217,7 @@ export default function PerkAutomationCard({
     }
   };
   // Use new endpoint for upload automation
-  const triggerUpload = async () => {
+  const _triggerUpload = async () => {
     try {
       const res = await fetch('/api/automation/upload_auto', {
         method: 'POST',

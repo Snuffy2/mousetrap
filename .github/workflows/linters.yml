@@ -52,6 +52,7 @@ jobs:
         with:
           node-version: '22.20.0' # LTS
           cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
 
       - name: Install frontend dependencies
         working-directory: frontend
@@ -60,9 +61,11 @@ jobs:
 
       - name: Run ESLint with Annotations
         uses: sibiraj-s/action-eslint@v4
+        env:
+          ESLINT_USE_FLAT_CONFIG: '1'
         with:
+          working-directory: frontend
           token: ${{ secrets.GITHUB_TOKEN }}
-          eslint-args: '--ignore-path=.gitignore --quiet'
           extensions: 'js,jsx,ts,tsx'
           annotations: true
 

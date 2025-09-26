@@ -29,17 +29,37 @@ import TimerDisplay from './TimerDisplay';
 
 import { useSession } from '../context/SessionContext';
 
+/**
+ * @typedef {Object} StatusCardProps
+ * @property {boolean} [autoWedge]
+ * @property {boolean} [autoVIP]
+ * @property {boolean} [autoUpload]
+ * @property {Function} [_onSessionSaved]
+ * @property {Function} [_onSessionDataChanged]
+ * @property {Function} [onStatusUpdate]
+ */
+
 const StatusCard = forwardRef(function StatusCard(
-  { autoWedge, autoVIP, autoUpload, _onSessionSaved, _onSessionDataChanged, onStatusUpdate },
+  /** @type {StatusCardProps} */ {
+    autoWedge,
+    autoVIP,
+    autoUpload,
+    _onSessionSaved,
+    _onSessionDataChanged,
+    onStatusUpdate,
+  },
   ref
 ) {
   const { sessionLabel, setDetectedIp, setPoints, setCheese, status, setStatus } = useSession();
   const [timer, setTimer] = useState(0);
-  const [snackbar, setSnackbar] = useState({
+  /** @type {{open: boolean, message: any, severity: 'success'|'error'|'info'|'warning'}} */
+  const initialSnackbar = {
     open: false,
     message: '',
     severity: 'info',
-  });
+  };
+
+  const [snackbar, setSnackbar] = useState(initialSnackbar);
   const [seedboxStatus, setSeedboxStatus] = useState(null);
   const [seedboxLoading, setSeedboxLoading] = useState(false);
   const pollingRef = useRef(null);
@@ -458,13 +478,18 @@ const StatusCard = forwardRef(function StatusCard(
         </Snackbar>
         <Divider sx={{ my: 2 }} />
         {/* Seedbox update status */}
-        {seedboxStatus && (
-          <Box sx={{ mb: 2 }}>
-            <Alert severity={seedboxStatus.success ? 'success' : 'warning'}>
-              {seedboxStatus.msg || seedboxStatus.error || 'Seedbox update status unknown.'}
-            </Alert>
-          </Box>
-        )}
+        {seedboxStatus &&
+          (() => {
+            /** @type {'success'|'warning'} */
+            const seedboxSeverity = seedboxStatus.success ? 'success' : 'warning';
+            return (
+              <Box sx={{ mb: 2 }}>
+                <Alert severity={seedboxSeverity}>
+                  {seedboxStatus.msg || seedboxStatus.error || 'Seedbox update status unknown.'}
+                </Alert>
+              </Box>
+            );
+          })()}
         {/* Make sure this is the end of CardContent, after all conditional Boxes are closed */}
       </CardContent>
     </Card>

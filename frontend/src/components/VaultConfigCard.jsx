@@ -43,11 +43,14 @@ export default function VaultConfigCard({ proxies, sessions }) {
   const [isLoading, setIsLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState(null);
   const [validationResult, setValidationResult] = useState(null);
-  const [snackbar, setSnackbar] = useState({
-    open: false,
-    message: '',
-    severity: 'success',
-  });
+  const [snackbar, setSnackbar] = useState(
+    /** @type {{open: boolean, message: string, severity: 'success'|'error'|'info'|'warning'}} */ ({
+      open: false,
+      message: '',
+      severity: 'success',
+    })
+  );
+
   const [manualDonationAmount, setManualDonationAmount] = useState(100);
 
   // CRUD state - simplified like SessionSelector
@@ -412,7 +415,7 @@ export default function VaultConfigCard({ proxies, sessions }) {
     }
   };
 
-  const handleDeleteClick = () => {
+  const _handleDeleteClick = () => {
     setDeleteDialogOpen(true);
   };
 
@@ -942,7 +945,7 @@ export default function VaultConfigCard({ proxies, sessions }) {
                       <Select
                         value={manualDonationAmount}
                         label="Donation Amount"
-                        onChange={(e) => setManualDonationAmount(parseInt(e.target.value))}
+                        onChange={(e) => setManualDonationAmount(Number(e.target.value))}
                         MenuProps={{
                           disableScrollLock: true,
                         }}

@@ -4,6 +4,12 @@ import { stringifyMessage } from '../utils/utils';
 /**
  * Reusable snackbar for showing feedback messages.
  *
+ *  Props:
+ * - open: boolean
+ * - message: string or any
+ * - severity: 'success' | 'error' | 'info' | 'warning'
+ * - onClose: function
+ *
  * @param {Object} props
  * @param {boolean} props.open
  * @param {any} props.message

@@ -7,7 +7,7 @@ COPY frontend/ ./
 RUN npm run build && rm -rf node_modules src public package*.json
 
 # Stage 2: Backend (FastAPI)
-FROM python:3.11-alpine AS backend
+FROM python:3.13-alpine AS backend
 WORKDIR /app
 
 # Copy requirements first for better caching

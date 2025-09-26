@@ -16,10 +16,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useSession } from '../context/SessionContext';
 
-export default function ProxyConfigCard({ proxies, setProxies, refreshProxies }) {
-  const [sessions, setSessions] = useState([]);
+export default function ProxyConfigCard({ proxies, setProxies: _setProxies, refreshProxies }) {
+  const [_sessions, setSessions] = useState([]);
   const [deleteLabel, setDeleteLabel] = useState(null);
-  const [sessionsUsingProxy, setSessionsUsingProxy] = useState([]);
+  const [_sessionsUsingProxy, setSessionsUsingProxy] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const { proxy, setProxy } = useSession();
 
@@ -31,7 +31,7 @@ export default function ProxyConfigCard({ proxies, setProxies, refreshProxies })
   }, [proxies]);
   const [expanded, setExpanded] = useState(false);
   const [editLabel, setEditLabel] = useState('');
-  const [editProxy, setEditProxy] = useState(null);
+  const [_editProxy, setEditProxy] = useState(null);
   const [form, setForm] = useState({
     label: '',
     host: '',

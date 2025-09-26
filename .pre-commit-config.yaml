@@ -46,25 +46,6 @@ repos:
       # Run the formatter.
       - id: ruff-format
 
-  # - repo: https://github.com/pre-commit/mirrors-eslint
-  #   rev: v9.36.0
-  #   hooks:
-  #     - id: eslint
-  #       language_version: 18.12.1
-  #       # Ensure ESLint uses the project's ESM flat config located in the frontend
-  #       # directory. Run from repo root but point to the frontend config file.
-  #       entry: eslint --config frontend/eslint.config.js
-  #       args: ['--fix']
-  #       files: '^frontend/.*\.(js|jsx|ts|tsx)$'
-  #       additional_dependencies:
-  #         - '@eslint/js'
-  #         - 'eslint-plugin-react'
-  #         - 'eslint-plugin-unused-imports'
-  #         - '@typescript-eslint/parser'
-  #         - '@typescript-eslint/eslint-plugin'
-  #         - 'eslint-config-prettier'
-  #         - 'prettier'
-
   - repo: https://github.com/rbubley/mirrors-prettier
     # https://github.com/JoC0de/pre-commit-prettier
     rev: v3.6.2
@@ -72,15 +53,6 @@ repos:
       - id: prettier
         args: ['--write']
         files: \.(js|jsx|ts|tsx|json|css|md|html)$
-
-  - repo: local
-    hooks:
-      - id: npm-install
-        name: Run npm install if package.json or package-lock.json changed
-        entry: bash -c 'npm install'
-        language: system
-        files: ^(package\.json|package-lock\.json)$
-        pass_filenames: false
 
 ci:
   autofix_commit_msg: |

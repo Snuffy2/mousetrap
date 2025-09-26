@@ -92,7 +92,7 @@ export default function NotificationsCard() {
         setConfig((prev) => ({ ...prev, ...(cfg || {}) }));
         setLoading(false);
       })
-      .catch((e) => {
+      .catch(() => {
         setError('Failed to load settings');
         setLoading(false);
       });

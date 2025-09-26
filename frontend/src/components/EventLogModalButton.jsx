@@ -10,7 +10,6 @@ import {
   Box,
   CircularProgress,
   Alert,
-  useTheme,
 } from '@mui/material';
 import { getStatusMessageColor } from '../utils/utils';
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -18,8 +17,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { styled } from '@mui/material/styles';
 
-export default function EventLogModalButton({ sessionLabel, allSessionLabels = [] }) {
-  const theme = useTheme();
+export default function EventLogModalButton({ sessionLabel, _allSessionLabels = [] }) {
   const [open, setOpen] = useState(false);
   const [log, setLog] = useState([]);
   const [showNoChange, setShowNoChange] = useState(true);

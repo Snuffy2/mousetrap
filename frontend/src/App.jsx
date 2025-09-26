@@ -52,14 +52,11 @@ export default function App() {
   const [autoWedge, setAutoWedge] = React.useState(false);
   const [autoVIP, setAutoVIP] = React.useState(false);
   const [autoUpload, setAutoUpload] = React.useState(false);
-  const [_uploadAmount, _setUploadAmount] = React.useState(0);
-  const [_vipWeeks, _setVipWeeks] = React.useState(0);
-  const [_wedgeMethod, _setWedgeMethod] = React.useState('');
   const [forceExpandConfig, setForceExpandConfig] = React.useState(false);
   const [proxies, setProxies] = React.useState({});
   const [sessions, setSessions] = React.useState([]);
   const [selectedLabel, setSelectedLabel] = React.useState('');
-  const statusCardRef = React.useRef();
+  const statusCardRef = React.useRef(null);
 
   // Fetch all sessions and update state, restoring last session if available
   const refreshSessions = async () => {
@@ -128,10 +125,9 @@ export default function App() {
     }
   };
   // Theme state and persistence
-  const [mode, setMode] = React.useState(() => {
-    const saved = window.localStorage.getItem('themeMode');
-    return saved ? saved : 'light';
-  });
+  const [mode, setMode] = React.useState(() =>
+    window.localStorage.getItem('themeMode') === 'dark' ? 'dark' : 'light'
+  );
 
   React.useEffect(() => {
     window.localStorage.setItem('themeMode', mode);
@@ -146,7 +142,7 @@ export default function App() {
     () =>
       createTheme({
         palette: {
-          mode: mode,
+          mode: /** @type {'light'|'dark'} */ (mode),
           primary: {
             main: '#1976d2', // MUI default blue
           },
@@ -259,14 +255,14 @@ export default function App() {
             autoWedge={autoWedge}
             autoVIP={autoVIP}
             autoUpload={autoUpload}
-            onSessionDataChanged={() => loadSession(selectedLabel)}
+            _onSessionDataChanged={() => loadSession(selectedLabel)}
             onStatusUpdate={handleStatusUpdate}
           />
         )}
         {/* 2. Session Configuration */}
         <MouseTrapConfigCard
           proxies={proxies}
-          onProxiesChanged={refreshProxies}
+          _onProxiesChanged={refreshProxies}
           onSessionSaved={handleSessionSaved}
           hasSessions={sessions.length > 0}
           onCreateNewSession={handleCreateSession}

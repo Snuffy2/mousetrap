@@ -27,7 +27,7 @@ import { useSession } from '../context/SessionContext';
 
 export default function MouseTrapConfigCard({
   proxies = {},
-  onProxiesChanged,
+  _onProxiesChanged,
   onSessionSaved,
   hasSessions = true,
   onCreateNewSession,
@@ -49,11 +49,11 @@ export default function MouseTrapConfigCard({
     checkFrequency,
     setCheckFrequency,
     oldLabel,
-    setOldLabel,
+    _setOldLabel,
     proxy,
     setProxy,
-    proxiedIp,
-    proxiedAsn,
+    _proxiedIp,
+    _proxiedAsn,
   } = useSession();
 
   // Local state for editing label
@@ -81,7 +81,7 @@ export default function MouseTrapConfigCard({
   const [proxyLabel, setProxyLabel] = useState('');
   // proxies now comes from props
   // proxyStatus.ip will now be the actual proxied public IP (not the proxy server's host)
-  const [proxyStatus, setProxyStatus] = useState({
+  const [_proxyStatus, setProxyStatus] = useState({
     ip: '',
     asn: '',
     valid: false,
