@@ -19,7 +19,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { stringifyMessage } from '../utils/utils';
 
-import { useSession } from '../context/SessionContext';
+import { useSession } from '../context/SessionContext.jsx';
 
 export default function PerkAutomationCard({
   _autoWedge,
@@ -183,7 +183,7 @@ export default function PerkAutomationCard({
           message: stringifyMessage(data.error || 'Wedge automation failed'),
           severity: 'error',
         });
-    } catch (e) {
+    } catch {
       setSnackbar({
         open: true,
         message: 'Wedge automation failed',
@@ -208,7 +208,7 @@ export default function PerkAutomationCard({
           message: stringifyMessage(data.error || 'VIP automation failed'),
           severity: 'error',
         });
-    } catch (e) {
+    } catch {
       setSnackbar({
         open: true,
         message: 'VIP automation failed',
@@ -238,7 +238,7 @@ export default function PerkAutomationCard({
           message: stringifyMessage(data.error || 'Upload automation failed'),
           severity: 'error',
         });
-    } catch (e) {
+    } catch {
       setSnackbar({
         open: true,
         message: 'Upload automation failed',
@@ -268,7 +268,7 @@ export default function PerkAutomationCard({
           message: stringifyMessage(data.error || `Wedge purchase with ${method} failed`),
           severity: 'error',
         });
-    } catch (e) {
+    } catch {
       setSnackbar({
         open: true,
         message: `Wedge purchase with ${method} failed`,
@@ -300,7 +300,7 @@ export default function PerkAutomationCard({
           ),
           severity: 'error',
         });
-    } catch (e) {
+    } catch {
       setSnackbar({
         open: true,
         message: `VIP purchase for ${vipWeeks === 90 ? 'up to 90 days (Max me out!)' : `${vipWeeks} weeks`} failed`,
@@ -333,7 +333,7 @@ export default function PerkAutomationCard({
           severity: 'error',
         });
       }
-    } catch (e) {
+    } catch {
       setSnackbar({
         open: true,
         message: `Upload credit purchase failed`,

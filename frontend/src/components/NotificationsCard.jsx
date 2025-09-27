@@ -137,7 +137,7 @@ export default function NotificationsCard() {
       });
       if (!res.ok) throw new Error('Save failed');
       setSuccess('Settings saved.');
-    } catch (e) {
+    } catch {
       setError('Failed to save settings');
     } finally {
       setSaving(false);
@@ -198,7 +198,7 @@ export default function NotificationsCard() {
       let data = null;
       try {
         data = await res.json();
-      } catch (e) {
+      } catch {
         data = null;
       }
 

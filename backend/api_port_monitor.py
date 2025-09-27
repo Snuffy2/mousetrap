@@ -27,7 +27,12 @@ def list_containers() -> list[str]:
     """Returns a list of running Docker container names."""
     client = port_monitor_manager.get_docker_client()
     if not client:
-        raise HTTPException(status_code=500, detail="Docker client not available")
+        _logger.warning("[PortMonitorAPI] Docker client unavailable when listing containers")
+        # Service unavailable: Docker operations require the docker SDK and access
+        raise HTTPException(
+            status_code=503,
+            detail="Docker client not available. Ensure the 'docker' SDK is installed and Docker is reachable from the running process.",
+        )
     try:
         containers = client.containers.list()
         return [c.name for c in containers]

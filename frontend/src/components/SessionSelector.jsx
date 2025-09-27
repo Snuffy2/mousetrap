@@ -17,7 +17,7 @@ import {
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
-import { useSession } from '../context/SessionContext';
+import { useSession } from '../context/SessionContext.jsx';
 
 export default function SessionSelector({ onLoadSession, onCreateSession, onDeleteSession, sx }) {
   const { sessionLabel: selectedLabel, setSessionLabel: setSelectedLabel } = useSession();

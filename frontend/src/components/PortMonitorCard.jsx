@@ -46,7 +46,7 @@ export default function PortMonitorCard() {
       if (!res.ok) throw new Error('Failed to fetch stacks');
       const data = await res.json();
       setStacks(data);
-    } catch (e) {
+    } catch {
       setStacks([]);
     }
   };
@@ -72,7 +72,7 @@ export default function PortMonitorCard() {
       const res = await fetch('/api/port-monitor/containers');
       if (!res.ok) throw new Error('Failed to fetch containers');
       setContainers(await res.json());
-    } catch (e) {
+    } catch {
       setContainers([]);
     }
   };
@@ -114,7 +114,7 @@ export default function PortMonitorCard() {
       });
       if (!res.ok) throw new Error('Failed to add stack');
       setSuccess('Stack added.');
-    } catch (e) {
+    } catch {
       setError('Failed to add stack.');
     } finally {
       resetForm();
@@ -151,7 +151,7 @@ export default function PortMonitorCard() {
       });
       if (!res.ok) throw new Error('Failed to update stack');
       setSuccess('Stack updated.');
-    } catch (e) {
+    } catch {
       setError('Failed to update stack.');
     } finally {
       resetForm();
@@ -176,7 +176,7 @@ export default function PortMonitorCard() {
       setSuccess('Stack deleted.');
       await fetchStacks();
       resetForm();
-    } catch (e) {
+    } catch {
       setError('Failed to delete stack.');
     } finally {
       setLoading(false);
@@ -193,7 +193,7 @@ export default function PortMonitorCard() {
       });
       if (!res.ok) throw new Error('Failed to restart stack');
       setSuccess('Stack restart triggered.');
-    } catch (e) {
+    } catch {
       setError('Failed to restart stack.');
     }
     setLoading(false);
@@ -484,7 +484,7 @@ export default function PortMonitorCard() {
                               const updated = freshData.find((s) => s.name === stack.name);
                               const statusMsg = updated ? updated.status || 'Unknown' : 'Unknown';
                               setSuccess(`Stack rechecked: ${stack.name} — ${statusMsg}`);
-                            } catch (e) {
+                            } catch {
                               setError('Failed to recheck stack.');
                             }
                             setLoading(false);

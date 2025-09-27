@@ -20,14 +20,14 @@ import {
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { getStatusMessageColor } from '../utils/utils';
-import { stringifyMessage } from '../utils/statusUtils';
+import { getStatusMessageColor } from '../utils/utils.jsx';
+import { stringifyMessage } from '../utils/statusUtils.jsx';
 import NetworkProxyDetailsAccordion from './NetworkProxyDetailsAccordion';
 import MamDetailsAccordion from './MamDetailsAccordion';
 import AutomationStatusRow from './AutomationStatusRow';
 import TimerDisplay from './TimerDisplay';
 
-import { useSession } from '../context/SessionContext';
+import { useSession } from '../context/SessionContext.jsx';
 
 /**
  * @typedef {Object} StatusCardProps

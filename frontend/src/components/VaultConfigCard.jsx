@@ -153,7 +153,7 @@ export default function VaultConfigCard({ proxies, sessions }) {
         message: 'New configuration ready! Fill in the required fields and save.',
         severity: 'info',
       });
-    } catch (error) {
+    } catch {
       setSnackbar({
         open: true,
         message: 'Error creating configuration',
@@ -223,7 +223,7 @@ export default function VaultConfigCard({ proxies, sessions }) {
         });
         setTimeout(() => setSaveStatus(null), 5000);
       }
-    } catch (error) {
+    } catch {
       setSaveStatus({
         type: 'error',
         message: 'Error saving configuration',
@@ -286,7 +286,7 @@ export default function VaultConfigCard({ proxies, sessions }) {
         });
         setTimeout(() => setValidationResult(null), 7000);
       }
-    } catch (error) {
+    } catch {
       setValidationResult({
         config_valid: false,
         vault_accessible: false,
@@ -446,7 +446,7 @@ export default function VaultConfigCard({ proxies, sessions }) {
           severity: 'error',
         });
       }
-    } catch (error) {
+    } catch {
       setSnackbar({
         open: true,
         message: 'Error deleting configuration',

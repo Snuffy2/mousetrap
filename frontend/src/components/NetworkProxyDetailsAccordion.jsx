@@ -1,7 +1,7 @@
 import React from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { renderASN } from '../utils/statusUtils';
+import { renderASN } from '../utils/statusUtils.jsx';
 
 export default function NetworkProxyDetailsAccordion({ status }) {
   if (!status) return null;

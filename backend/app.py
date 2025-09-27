@@ -70,12 +70,13 @@ from backend.vault_uid_manager import (
     sync_browser_mam_id_across_uid_sessions,
 )
 
-# FAVICON ROUTES: must be registered before static/catch-all routes
 BASE_DIR = Path(__file__).resolve().parent
 FRONTEND_BUILD_DIR = (Path(BASE_DIR) / "../frontend/build").resolve()
-FRONTEND_PUBLIC_DIR = "/app/frontend/public"  # Force correct path for Docker
-# If running in Docker, BASE_DIR is /app/backend, so ../frontend/public is /app/frontend/public
-STATIC_DIR = Path(FRONTEND_BUILD_DIR) / "static"
+FRONTEND_PUBLIC_DIR = os.environ.get(
+    "FRONTEND_PUBLIC_DIR", str((Path(BASE_DIR) / "../frontend/public").resolve())
+)
+FRONTEND_ASSETS_DIR = os.environ.get("FRONTEND_ASSETS_DIR", "assets")
+STATIC_DIR = Path(FRONTEND_BUILD_DIR) / FRONTEND_ASSETS_DIR
 
 # Set up global logging configuration
 setup_logging()

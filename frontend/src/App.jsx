@@ -11,7 +11,7 @@ import {
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { useSession } from './context/SessionContext';
+import { useSession } from './context/SessionContext.jsx';
 import StatusCard from './components/StatusCard';
 import EventLogModalButton from './components/EventLogModalButton';
 import MouseTrapConfigCard from './components/MouseTrapConfigCard';
@@ -31,7 +31,7 @@ export default function App() {
       const res = await fetch('/api/proxies');
       const data = await res.json();
       setProxies(data || {});
-    } catch (e) {
+    } catch {
       setProxies({});
     }
   };
@@ -76,13 +76,13 @@ export default function App() {
             loadSession(lastLabel);
             return;
           }
-        } catch (e) {
+        } catch {
           // Ignore and fall back to first session
         }
         setSelectedLabel(data.sessions[0]);
         loadSession(data.sessions[0]);
       }
-    } catch (e) {
+    } catch {
       setSessions([]);
     }
   };
@@ -120,7 +120,7 @@ export default function App() {
       setProxy(cfg?.proxy ?? {});
       setProxiedIp(cfg?.proxied_public_ip ?? '');
       setProxiedAsn(cfg?.proxied_public_ip_asn ?? '');
-    } catch (e) {
+    } catch {
       // handle error
     }
   };

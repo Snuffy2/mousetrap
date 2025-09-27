@@ -2,25 +2,35 @@
   "name": "mousetrap-frontend",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-scripts": "^5.0.1"
+    "@types/react": "^19.1.14",
+    "@types/react-dom": "^19.1.9",
+    "@typescript-eslint/eslint-plugin": "^8.44.1",
+    "@typescript-eslint/parser": "^8.44.1",
+    "@vitejs/plugin-react": "^5.0.3",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.0.0",
+    "eslint-plugin-unused-imports": "^4.2.0",
+    "prettier": "^3.6.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "vite": "^7.1.7",
+    "vite-plugin-eslint": "^1.8.1"
   },
   "engines": {
     "node": ">=22.20.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
     "backend": "cd .. && ./scripts/start-backend.sh",
     "dev": "concurrently \"npm:backend\" \"npm:start\" -k --names \"backend,frontend\" --prefix \"[{name}]\"",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
     "lint": "cross-env ESLINT_USE_FLAT_CONFIG=true eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "npm run lint -- --fix",
     "format": "npx prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,md}\""
@@ -37,16 +47,22 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:39842",
   "devDependencies": {
-    "concurrently": "^8.2.0",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
-    "eslint-plugin-unused-imports": "^4.2.0",
-    "eslint": "^8.57.1",
-    "eslint-plugin-react": "^7.37.5",
+    "@types/react": "^19.1.14",
+    "@types/react-dom": "^19.1.9",
+    "@typescript-eslint/eslint-plugin": "^8.44.1",
+    "@typescript-eslint/parser": "^8.44.1",
+    "@vitejs/plugin-react": "^5.0.3",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.0.0",
+    "eslint": "^9.36.0",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-unused-imports": "^4.2.0",
     "prettier": "^3.6.2",
-    "cross-env": "^7.0.3"
+    "vite": "^7.1.7",
+    "vite-plugin-eslint": "^1.8.1"
   }
 }

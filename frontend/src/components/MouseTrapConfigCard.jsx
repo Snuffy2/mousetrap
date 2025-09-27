@@ -23,7 +23,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Snackbar from '@mui/material/Snackbar';
 import PropTypes from 'prop-types';
 
-import { useSession } from '../context/SessionContext';
+import { useSession } from '../context/SessionContext.jsx';
 
 export default function MouseTrapConfigCard({
   proxies = {},

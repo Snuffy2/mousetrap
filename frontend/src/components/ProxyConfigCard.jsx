@@ -14,7 +14,7 @@ import ConfirmDialog from './ConfirmDialog';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { useSession } from '../context/SessionContext';
+import { useSession } from '../context/SessionContext.jsx';
 
 export default function ProxyConfigCard({ proxies, setProxies: _setProxies, refreshProxies }) {
   const [_sessions, setSessions] = useState([]);

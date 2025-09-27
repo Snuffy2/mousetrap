@@ -195,14 +195,18 @@ class PortMonitorStackManager:
         if self._docker_client is not None:
             return self._docker_client
         if not docker:
+            # Docker SDK not installed in this Python environment
+            _logger.warning(
+                "[PortMonitor] Docker SDK (python 'docker' package) not available; container operations disabled."
+            )
             return None
         try:
             client = docker.from_env()
             self._docker_client = client
         except Exception:
+            _logger.warning("[PortMonitor] Failed to create Docker client")
             return None
-        else:
-            return self._docker_client
+        return self._docker_client
 
     def check_port(self, container_name: str, port: int) -> bool:
         """Check if the container's public IP and port are reachable from the host (outside the container),
