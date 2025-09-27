@@ -1,0 +1,13 @@
+# Ignore build artifacts and generated files
+build/
+public/
+dist/
+node_modules/
+coverage/
+*.min.js
+*.map
+*.LICENSE.txt
+
+# Ignore any editor or OS specific files
+.DS_Store
+/.vscode
