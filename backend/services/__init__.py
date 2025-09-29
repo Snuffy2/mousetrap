@@ -6,6 +6,7 @@ from importlib import import_module
 from typing import Any
 
 __all__ = [
+    "AutomationService",
     "NotificationsService",
     "PortMonitorService",
     "SessionSchedulerService",
@@ -16,6 +17,9 @@ __all__ = [
 def __getattr__(name: str) -> Any:
     """Lazily import service classes on first access."""
 
+    if name == "AutomationService":
+        module = import_module("backend.services.automation_service")
+        return module.AutomationService
     if name == "NotificationsService":
         module = import_module("backend.services.notifications_service")
         return module.NotificationsService

@@ -12,6 +12,7 @@ from apscheduler.schedulers.background import BackgroundScheduler  # type: ignor
 from fastapi import FastAPI
 
 from backend.port_monitor import PortMonitorStackManager
+from backend.services.automation_service import AutomationService
 from backend.services.notifications_service import NotificationsService
 
 
@@ -162,11 +163,15 @@ class BackendState:
     )
     warning_throttler: WarningThrottler = field(default_factory=WarningThrottler)
     notifications_service: NotificationsService = field(init=False)
+    automation_service: AutomationService = field(init=False)
 
     def __post_init__(self) -> None:
         """Initialize dependent services that require the state instance."""
 
         self.notifications_service = NotificationsService(state=self)
+        self.automation_service = AutomationService(
+            state=self, notifications_service=self.notifications_service
+        )
 
     def shutdown(self) -> None:
         """Stop background services gracefully."""
