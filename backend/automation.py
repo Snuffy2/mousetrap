@@ -21,11 +21,12 @@ import time
 from backend.config import list_sessions, load_session, save_session
 from backend.event_log import append_ui_event_log
 from backend.mam_api import get_status
-from backend.notifications_backend import notify_event
 from backend.perk_automation import buy_upload_credit, buy_vip, buy_wedge
 from backend.proxy_config import resolve_proxy_from_session_cfg
+from backend.services.notifications_service import NotificationsService
 
 _logger: logging.Logger = logging.getLogger(__name__)
+notifications_service = NotificationsService()
 
 # Point costs for the enforce-minimum-points guardrail
 _WEDGE_POINTS_COST = 50_000
@@ -243,7 +244,7 @@ async def upload_credit_automation_job() -> None:
                 # Update last purchase timestamp in new field
                 cfg["perk_automation"]["upload_credit"]["last_upload_time"] = now_dt.isoformat()
                 save_session(cfg, old_label=label)
-                await notify_event(
+                await notifications_service.notify_event(
                     event_type="automation_success",
                     label=label,
                     status="SUCCESS",
@@ -257,7 +258,7 @@ async def upload_credit_automation_job() -> None:
                     label,
                     event["error"],
                 )
-                await notify_event(
+                await notifications_service.notify_event(
                     event_type="automation_failure",
                     label=label,
                     status="FAILED",
@@ -528,7 +529,7 @@ async def vip_automation_job() -> None:
                 automation.pop("cooldown_until", None)
                 automation.pop("last_fail_time", None)
                 save_session(cfg, old_label=label)
-                await notify_event(
+                await notifications_service.notify_event(
                     event_type="automation_success",
                     label=label,
                     status="SUCCESS",
@@ -556,7 +557,7 @@ async def vip_automation_job() -> None:
                         automation["cooldown_until"],
                     )
                 save_session(cfg, old_label=label)
-                await notify_event(
+                await notifications_service.notify_event(
                     event_type="automation_failure",
                     label=label,
                     status="FAILED",
@@ -760,7 +761,7 @@ async def wedge_automation_job() -> None:
                     "[WedgeAuto] Automated purchase: Wedge (points) for session '%s' succeeded.",
                     label,
                 )
-                await notify_event(
+                await notifications_service.notify_event(
                     event_type="automation_success",
                     label=label,
                     status="SUCCESS",
@@ -773,7 +774,7 @@ async def wedge_automation_job() -> None:
                     label,
                     event["error"],
                 )
-                await notify_event(
+                await notifications_service.notify_event(
                     event_type="automation_failure",
                     label=label,
                     status="FAILED",
