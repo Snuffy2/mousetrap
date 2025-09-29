@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import pytest  # type: ignore[import-not-found]
+import pytest
 
 pytest.importorskip("apscheduler")
 
