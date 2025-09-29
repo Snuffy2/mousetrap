@@ -16,12 +16,12 @@
 - The agent may create and use a repository-local virtual environment at `./.venv` and should reference the interpreter at `./.venv/bin/python` when running commands.
 - The agent may install packages from repository manifests (for example `requirements-dev.txt`, `pyproject.toml`) into the repo venv without needing additional explicit approval for each run. The agent should prefer installing into `./.venv` rather than the global environment and must avoid performing unnecessary or unrelated network operations.
 
-
 ## Folder Structure
 
 - `/backend`: Contains the backend FastAPI code.
-- `/frontend`: Contains the React frontend code.
-- `/tests`: Contains the pytest code.
+- `/frontend`: Contains the React (Vite) frontend code.
+- `/tests/vitests`: Contains the vitest code.
+- `/tests/pytests`: Contains the pytest code.
 - `/README.md`: Is the primary documentation for the integration.
 
 ## Coding Standards
@@ -40,7 +40,7 @@
 
 ## Local tooling note
 
-- This repository uses `pre-commit` (configured in `/.pre-commit-config.yaml`) and `pytest` (configured via `pyproject.toml`) as the primary local tooling for formatting, linting, and tests. 
+- This repository uses `pre-commit` (configured in `/.pre-commit-config.yaml`), `pytest` (configured via `pyproject.toml`) and `vitest` as the primary local tooling for formatting, linting, and tests. 
 - Ensure that pytest and pre-commit are always run locally in the repository venv (`./.venv`) unless the user specifies a different environment.
 
 ## Error Handling & Logging
@@ -51,7 +51,7 @@
   1. Attempt to install the missing dev dependencies into `./.venv` if installs are permitted, or
   2. Report the missing package(s) with an exact pip install command and fail gracefully.
 
-## Backend Python Testing
+## Backend Python Testing using pytest
 
 - Use pytest (not unittest) and pytest plugins for all backend python tests.
 - All tests must have typing annotations and robust docstrings.
@@ -61,6 +61,12 @@
 - When parameterizing tests, delete any legacy placeholder tests and related comments.
 - Don't run pytest with `--disable-warnings` and address all warnings.
 - Prefer running the full pytest suite by default for this repository. Only run focused tests when the user explicitly asks for targeted runs.
+- Achieve at least 80% code coverage.
+- When making changes to code, include tests for the new/changed behavior; the agent should add tests alongside code edits even when changes are not minimally invasive.
+
+## Frontend Testing using vitest
+
+- Use vitest (not jest or mocha) for all frontend tests.
 - Achieve at least 80% code coverage.
 - When making changes to code, include tests for the new/changed behavior; the agent should add tests alongside code edits even when changes are not minimally invasive.
 
