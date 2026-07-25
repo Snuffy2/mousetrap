@@ -12,6 +12,11 @@
 		"lint:fix": "cd frontend && npm run lint:fix",
 		"tsc": "cd frontend && npm run tsc",
 		"backend": "cd frontend && npm run backend",
-		"dev": "cd frontend && npm run dev"
+		"dev": "cd frontend && npm run dev",
+		"test:backend:integration": "python -m pytest -m integration",
+		"test:backend:workflow": "python -m pytest -m workflow",
+		"test:backend:all": "python -m pytest",
+		"test:e2e": "npm --prefix frontend run test:e2e",
+		"test:e2e:container": "npm --prefix frontend run test:e2e:container"
 	}
 }

@@ -1,2 +1,7 @@
 # Lint includes the full requirements.txt
 -r requirements-lint.txt
+httpx
+pytest
+pytest-asyncio
+pytest-cov
+pytest-timeout
