@@ -47,7 +47,6 @@ proxies.yaml*
 pytest.xml
 pythonenv*
 pyvenv.cfg
-scripts/
 session-*.yaml*
 Thumbs.db
 venv.bak/
